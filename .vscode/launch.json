@@ -1,0 +1,40 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            // Flutter launch configuration for Chrome
+            "name": "standmobile Chrome",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "-d",
+                "chrome", //"web-server",
+                "--web-port",
+                "8888",
+                "--web-hostname",
+                "192.168.0.59",
+                "--web-renderer",
+                "html",
+                "--dart-define=FLUTTER_WEB_CANVASKIT_URL=/web/canvaskit/"
+            ]
+
+        },
+        {
+            "name": "standmobile (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "standmobile (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

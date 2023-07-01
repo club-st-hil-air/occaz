@@ -1,0 +1,33 @@
+name: standconsult
+description: Consultation des articles en vente pour le stand d'occasion de la coupe Icare
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.5 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  fuzzy: 0.4.0-nullsafety.0
+  http: ^0.13.3
+  global_configuration: ^2.0.0-nullsafety.1
+  data_table_2: ^2.5.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/cfg/
+
