@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:global_configuration/global_configuration.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/article.dart';
 
@@ -316,7 +316,13 @@ class _DataSource extends DataTableSource {
       //DataCell(Text(articlesFiltered[index].numeroCoupon)),
       DataCell(Text(articlesFiltered[index].type)),
       DataCell(Text(articlesFiltered[index].marque)),
-      DataCell(Text(articlesFiltered[index].modele)),
+      DataCell(GestureDetector(
+          child: Text(articlesFiltered[index].modele,
+              style: TextStyle(decoration: TextDecoration.underline)),
+          onTap: () => launchUrl(Uri.parse('https://duckduckgo.com/?q=!ducky+' +
+              articlesFiltered[index].marque +
+              " " +
+              articlesFiltered[index].modele)))),
       DataCell(Text(articlesFiltered[index].couleur)),
       DataCell(Text(articlesFiltered[index].pTVMin)),
       DataCell(Text(articlesFiltered[index].pTVMax)),
