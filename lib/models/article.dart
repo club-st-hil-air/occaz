@@ -1,6 +1,6 @@
 class Article {
   final String idLot;
-  final String numeroCoupon;
+  final int numeroCoupon;
   final String prixVente;
   final String homologation;
   final String type;
@@ -15,7 +15,7 @@ class Article {
 
   Article(
       {this.idLot = "",
-      this.numeroCoupon = "",
+      this.numeroCoupon = 0,
       this.prixVente = "",
       this.homologation = "",
       this.type = "",
@@ -39,7 +39,7 @@ class Article {
     try {
       return Article(
           idLot: json['idLot'],
-          numeroCoupon: json['numeroCoupon'],
+          numeroCoupon: int.parse(json['numeroCoupon']),
           prixVente: json['prixVente'],
           homologation: json['homologation'],
           type: types[int.parse(json['type'])],

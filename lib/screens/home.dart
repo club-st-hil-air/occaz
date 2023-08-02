@@ -81,7 +81,7 @@ class HomeState extends State<Home> {
                       textAlign: TextAlign.left,
                       decoration: new InputDecoration(
                           hintText:
-                              'Recherche dans n° lot, coupon, type, marque, modèle, homologation, commentaires',
+                              'Recherche dans n° coupon, type, marque, modèle, homologation, commentaires',
                           border: InputBorder.none),
                       onChanged: (value) {
                         setState(() {
@@ -90,16 +90,16 @@ class HomeState extends State<Home> {
                               .where((article) => _searchResult
                                   .toLowerCase()
                                   .split(" ")
-                                  .every((s) => (article.idLot +
-                                          article.numeroCoupon +
-                                          article.type +
-                                          article.marque +
-                                          article.modele +
-                                          article.homologation +
-                                          article.couleur +
-                                          article.commentaire)
-                                      .toLowerCase()
-                                      .contains(s)))
+                                  .every((s) =>
+                                      (article.numeroCoupon.toString() +
+                                              article.type +
+                                              article.marque +
+                                              article.modele +
+                                              article.homologation +
+                                              article.couleur +
+                                              article.commentaire)
+                                          .toLowerCase()
+                                          .contains(s)))
                               .toList();
                           if (_chosenType != 'Tout') {
                             _data.articlesFiltered = _data.articlesFiltered
@@ -167,16 +167,16 @@ class HomeState extends State<Home> {
                                   .where((article) => _searchResult
                                       .toLowerCase()
                                       .split(" ")
-                                      .every((s) => (article.idLot +
-                                              article.numeroCoupon +
-                                              article.type +
-                                              article.marque +
-                                              article.modele +
-                                              article.homologation +
-                                              article.couleur +
-                                              article.commentaire)
-                                          .toLowerCase()
-                                          .contains(s)))
+                                      .every((s) =>
+                                          (article.numeroCoupon.toString() +
+                                                  article.type +
+                                                  article.marque +
+                                                  article.modele +
+                                                  article.homologation +
+                                                  article.couleur +
+                                                  article.commentaire)
+                                              .toLowerCase()
+                                              .contains(s)))
                                   .toList();
                               _data.articlesFiltered = _data.articlesFiltered
                                   .where((article) =>
@@ -199,23 +199,18 @@ class HomeState extends State<Home> {
                 sortColumnIndex: _sortColumnIndex,
                 sortAscending: _sortAscending,
                 columns: [
+                  // DataColumn(
+                  //     label: Text('Lot'),
+                  //     onSort: (columnIndex, ascending) {
+                  //       _data._sort((item) => item.idLot, ascending);
+                  //       refreshAfterSort(columnIndex, ascending);
+                  //     }),
                   DataColumn(
-                      label: Text('Lot'),
+                      label: Text('Coupon'),
                       onSort: (columnIndex, ascending) {
-                        _data._sort((item) => item.idLot, ascending);
+                        _data._sort((item) => item.numeroCoupon, ascending);
                         refreshAfterSort(columnIndex, ascending);
                       }),
-                  // DataColumn(
-                  //     label: Text('Coupon'),
-                  //     onSort: (columnIndex, ascending) {
-                  //       _data._sort(
-                  //           (item) => int.parse(item.numeroCoupon), ascending);
-                  //       setState(() {
-                  //         _sortColumnIndex = columnIndex;
-                  //         this._sortAscending = ascending;
-                  //         _data.notifyListeners();
-                  //       });
-                  //     }),
                   DataColumn(
                       label: Text('Type'),
                       onSort: (columnIndex, ascending) {
@@ -312,8 +307,8 @@ class _DataSource extends DataTableSource {
   int get selectedRowCount => 0;
   DataRow getRow(int index) {
     return DataRow(cells: [
-      DataCell(Text(articlesFiltered[index].idLot)),
-      //DataCell(Text(articlesFiltered[index].numeroCoupon)),
+      //DataCell(Text(articlesFiltered[index].idLot)),
+      DataCell(Text(articlesFiltered[index].numeroCoupon.toString())),
       DataCell(Text(articlesFiltered[index].type)),
       DataCell(Text(articlesFiltered[index].marque)),
       DataCell(GestureDetector(
