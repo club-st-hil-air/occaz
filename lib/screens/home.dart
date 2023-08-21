@@ -17,7 +17,8 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   int _sortColumnIndex = 0;
   bool _sortAscending = true;
-  String _chosenType = 'Tout';
+  String _chosenType = 'Tout type';
+  String _chosenHomologation = 'Toute homologation';
 
   _DataSource _data = _DataSource([], []);
   bool isLoaded = false;
@@ -60,7 +61,7 @@ class HomeState extends State<Home> {
     getArticleList();
     return Scaffold(
       appBar: AppBar(
-        title: Text('DEMO: Occasions du Club St Hil\'Air'),
+        title: Text('Occasions du Club St Hil\'Air'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -101,10 +102,16 @@ class HomeState extends State<Home> {
                                           .toLowerCase()
                                           .contains(s)))
                               .toList();
-                          if (_chosenType != 'Tout') {
+                          if (_chosenType != 'Tout type') {
                             _data.articlesFiltered = _data.articlesFiltered
                                 .where((article) =>
                                     article.type.contains(_chosenType))
+                                .toList();
+                          }
+                          if (_chosenHomologation != 'Toute homologation') {
+                            _data.articlesFiltered = _data.articlesFiltered
+                                .where((article) => article.homologation
+                                    .contains(_chosenHomologation))
                                 .toList();
                           }
                           _data.notifyListeners();
@@ -116,12 +123,17 @@ class HomeState extends State<Home> {
                       setState(() {
                         controller.clear();
                         _searchResult = '';
-                        if (_chosenType == 'Tout') {
-                          _data.articlesFiltered = _data.articles;
-                        } else {
-                          _data.articlesFiltered = _data.articles
+                        _data.articlesFiltered = _data.articles;
+                        if (_chosenType != 'Tout type') {
+                          _data.articlesFiltered = _data.articlesFiltered
                               .where((article) =>
                                   article.type.contains(_chosenType))
+                              .toList();
+                        }
+                        if (_chosenHomologation != 'Toute homologation') {
+                          _data.articlesFiltered = _data.articlesFiltered
+                              .where((article) => article.homologation
+                                  .contains(_chosenHomologation))
                               .toList();
                         }
                         _data.notifyListeners();
@@ -140,7 +152,7 @@ class HomeState extends State<Home> {
                         value: _chosenType,
                         style: TextStyle(color: Colors.black),
                         items: <String>[
-                          'Tout',
+                          'Tout type',
                           '🪂Voile',
                           '💺Sellette',
                           '🆘Secours',
@@ -159,28 +171,98 @@ class HomeState extends State<Home> {
                         }).toList(),
                         onChanged: (value) {
                           setState(() {
+                            _chosenHomologation = 'Toute homologation';
                             _chosenType = value!;
-                            if (_chosenType == 'Tout') {
-                              _data.articlesFiltered = _data.articles;
-                            } else {
-                              _data.articlesFiltered = _data.articles
-                                  .where((article) => _searchResult
-                                      .toLowerCase()
-                                      .split(" ")
-                                      .every((s) =>
-                                          (article.numeroCoupon.toString() +
-                                                  article.type +
-                                                  article.marque +
-                                                  article.modele +
-                                                  article.homologation +
-                                                  article.couleur +
-                                                  article.commentaire)
-                                              .toLowerCase()
-                                              .contains(s)))
-                                  .toList();
+                            _data.articlesFiltered = _data.articles
+                                .where((article) => _searchResult
+                                    .toLowerCase()
+                                    .split(" ")
+                                    .every((s) =>
+                                        (article.numeroCoupon.toString() +
+                                                article.type +
+                                                article.marque +
+                                                article.modele +
+                                                article.homologation +
+                                                article.couleur +
+                                                article.commentaire)
+                                            .toLowerCase()
+                                            .contains(s)))
+                                .toList();
+                            if (_chosenType != 'Tout type') {
                               _data.articlesFiltered = _data.articlesFiltered
                                   .where((article) =>
                                       article.type.contains(_chosenType))
+                                  .toList();
+                            }
+                            if (_chosenHomologation != 'Toute homologation') {
+                              _data.articlesFiltered = _data.articlesFiltered
+                                  .where((article) => article.homologation
+                                      .contains(_chosenHomologation))
+                                  .toList();
+                            }
+                            _data.notifyListeners();
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  SizedBox(
+                    //width: 200, // Your width for dropdowns
+                    child: ButtonTheme(
+                      alignedDropdown: true,
+                      child: DropdownButton<String>(
+                        value: _chosenHomologation,
+                        style: TextStyle(color: Colors.black),
+                        items: <String>[
+                          'Toute homologation',
+                          'EN A',
+                          'EN B',
+                          'EN C',
+                          'EN D'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _chosenType = '🪂Voile';
+                            _chosenHomologation = value!;
+                            _data.articlesFiltered = _data.articles
+                                .where((article) => _searchResult
+                                    .toLowerCase()
+                                    .split(" ")
+                                    .every((s) =>
+                                        (article.numeroCoupon.toString() +
+                                                article.type +
+                                                article.marque +
+                                                article.modele +
+                                                article.homologation +
+                                                article.couleur +
+                                                article.commentaire)
+                                            .toLowerCase()
+                                            .contains(s)))
+                                .toList();
+                            if (_chosenType != 'Tout type') {
+                              _data.articlesFiltered = _data.articlesFiltered
+                                  .where((article) =>
+                                      article.type.contains(_chosenType))
+                                  .toList();
+                            }
+                            if (_chosenHomologation != 'Toute homologation') {
+                              _data.articlesFiltered = _data.articlesFiltered
+                                  .where((article) => article.homologation
+                                      .contains(_chosenHomologation))
                                   .toList();
                             }
                             _data.notifyListeners();
@@ -195,7 +277,7 @@ class HomeState extends State<Home> {
                 source: _data,
                 key:
                     UniqueKey(), // permet de repasser en première page après recherche
-                header: Text('Articles'),
+                header: Text('Lots en vente'),
                 sortColumnIndex: _sortColumnIndex,
                 sortAscending: _sortAscending,
                 columns: [
@@ -256,7 +338,12 @@ class HomeState extends State<Home> {
                             (item) => int.parse(item.prixVente), ascending);
                         refreshAfterSort(columnIndex, ascending);
                       }),
-                  DataColumn(label: Text('Homologation')),
+                  DataColumn(
+                      label: Text('Homologation'),
+                      onSort: (columnIndex, ascending) {
+                        _data._sort((item) => item.homologation, ascending);
+                        refreshAfterSort(columnIndex, ascending);
+                      }),
                   DataColumn(label: Text('Commentaires')),
                 ],
                 columnSpacing: 15,
@@ -269,11 +356,14 @@ class HomeState extends State<Home> {
                     splashColor: Colors.transparent,
                     icon: const Icon(Icons.refresh),
                     onPressed: () {
+                      // Refresh the data and reset filters
                       setState(() {
                         _data = _DataSource([], []);
-                        _chosenType = 'Tout';
+                        _chosenType = 'Tout type';
+                        _chosenHomologation = 'Toute homologation';
                         isLoaded = false;
                       });
+                      getArticleList();
                     },
                   ),
                 ],

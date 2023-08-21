@@ -41,16 +41,17 @@ class Article {
           idLot: json['idLot'],
           numeroCoupon: int.parse(json['numeroCoupon']),
           prixVente: json['prixVente'],
-          homologation: json['homologation'],
+          // Replace &amp; by & in homologation
+          homologation: json['homologation'].replaceAll("&amp;", "&"),
           type: types[int.parse(json['type'])],
-          marque: json['marque'],
-          modele: json['modele'],
-          couleur: json['couleurVoile'],
+          marque: json['marque'] ?? "",
+          modele: json['modele'] ?? "",
+          couleur: json['couleurVoile'] ?? "",
           // annee: json['annee'],
           pTVMin: json['PTVMin'],
           pTVMax: json['PTVMax'],
           taille: json['taille'],
-          commentaire: json['commentaire']);
+          commentaire: json['commentaire'] ?? "");
     }
     // Catch the error and print it
     catch (e) {
