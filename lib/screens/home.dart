@@ -312,12 +312,6 @@ class HomeState extends State<Home> {
                         refreshAfterSort(columnIndex, ascending);
                       }),
                   DataColumn(
-                      label: Text('Couleur'),
-                      onSort: (columnIndex, ascending) {
-                        _data._sort((item) => item.couleur, ascending);
-                        refreshAfterSort(columnIndex, ascending);
-                      }),
-                  DataColumn(
                       label: Text('PTV Min'),
                       onSort: (columnIndex, ascending) {
                         _data._sort((item) => int.tryParse(item.pTVMin) ?? 0,
@@ -342,6 +336,12 @@ class HomeState extends State<Home> {
                       label: Text('Homologation'),
                       onSort: (columnIndex, ascending) {
                         _data._sort((item) => item.homologation, ascending);
+                        refreshAfterSort(columnIndex, ascending);
+                      }),
+                  DataColumn(
+                      label: Text('Couleur'),
+                      onSort: (columnIndex, ascending) {
+                        _data._sort((item) => item.couleur, ascending);
                         refreshAfterSort(columnIndex, ascending);
                       }),
                   DataColumn(label: Text('Commentaires')),
@@ -404,15 +404,16 @@ class _DataSource extends DataTableSource {
       DataCell(GestureDetector(
           child: Text(articlesFiltered[index].modele,
               style: TextStyle(decoration: TextDecoration.underline)),
-          onTap: () => launchUrl(Uri.parse('https://duckduckgo.com/?q=!ducky+' +
-              articlesFiltered[index].marque +
-              " " +
-              articlesFiltered[index].modele)))),
-      DataCell(Text(articlesFiltered[index].couleur)),
+          onTap: () => launchUrl(Uri.parse(
+              'https://www.ecosia.org/search?method=index&q=' +
+                  articlesFiltered[index].marque +
+                  " " +
+                  articlesFiltered[index].modele)))),
       DataCell(Text(articlesFiltered[index].pTVMin)),
       DataCell(Text(articlesFiltered[index].pTVMax)),
       DataCell(Text(articlesFiltered[index].prixVente + "€")),
       DataCell(Text(articlesFiltered[index].homologation)),
+      DataCell(Text(articlesFiltered[index].couleur)),
       DataCell(Text(articlesFiltered[index].commentaire)),
     ]);
   }
