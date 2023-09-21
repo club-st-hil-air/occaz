@@ -40,6 +40,17 @@ class HomeState extends State<Home> {
                 //.where((article) => article.statut.contains('En vente'))
                 .toList()); // Au départ, on affiche tous les types d'article
         isLoaded = true;
+        _data._sort((item) => item.numeroCoupon, true);
+        // If multiple articles have the same coupon number, mark them as a lot (isLot = true)
+        // use _data
+        for (int i = 0; i < _data.articles.length - 1; i++) {
+          if (_data.articles[i].numeroCoupon ==
+              _data.articles[i + 1].numeroCoupon) {
+            _data.articles[i].isLot = true;
+            _data.articles[i + 1].isLot = true;
+          }
+        }
+        
         print("Appel de l'API, retour de " +
             articles.length.toString() +
             " articles.");
@@ -294,6 +305,9 @@ class HomeState extends State<Home> {
                         refreshAfterSort(columnIndex, ascending);
                       }),
                   DataColumn(
+                      label: Text('Lot?')
+                      ),
+                  DataColumn(
                       label: Text('Type'),
                       onSort: (columnIndex, ascending) {
                         _data._sort((item) => item.type, ascending);
@@ -399,6 +413,7 @@ class _DataSource extends DataTableSource {
     return DataRow(cells: [
       //DataCell(Text(articlesFiltered[index].idLot)),
       DataCell(Text(articlesFiltered[index].numeroCoupon.toString())),
+      DataCell(Text(articlesFiltered[index].isLot ? '📦' : '')),
       DataCell(Text(articlesFiltered[index].type)),
       DataCell(Text(articlesFiltered[index].marque)),
       DataCell(GestureDetector(

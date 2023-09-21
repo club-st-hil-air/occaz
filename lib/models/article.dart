@@ -1,6 +1,7 @@
 class Article {
   final String idLot;
   final int numeroCoupon;
+  bool isLot;
   final String prixVente;
   final String homologation;
   final String type;
@@ -16,6 +17,7 @@ class Article {
   Article(
       {this.idLot = "",
       this.numeroCoupon = 0,
+      this.isLot = false,
       this.prixVente = "",
       this.homologation = "",
       this.type = "",
@@ -40,6 +42,7 @@ class Article {
       return Article(
           idLot: json['idLot'],
           numeroCoupon: int.parse(json['numeroCoupon']),
+          isLot: false,
           prixVente: json['prixVente'],
           // Replace &amp; by & in homologation
           homologation: json['homologation'].replaceAll("&amp;", "&"),
@@ -63,6 +66,7 @@ class Article {
   Map<String, dynamic> toJson() => {
         'idLot': idLot,
         'numeroCoupon': numeroCoupon,
+        'isLot': isLot,
         'prixVente': prixVente,
         'homologation': homologation,
         'type': type,
