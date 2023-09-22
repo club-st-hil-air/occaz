@@ -13,6 +13,7 @@ class Article {
   final String pTVMax;
   final String taille;
   final String commentaire;
+  final int heureVolesVoile;
 
   Article(
       {this.idLot = "",
@@ -28,6 +29,7 @@ class Article {
       this.pTVMin = "",
       this.pTVMax = "",
       this.taille = "",
+      this.heureVolesVoile = 0,
       this.commentaire = ""});
 
   factory Article.fromJson(Map<String, dynamic> json) {
@@ -51,10 +53,16 @@ class Article {
           modele: json['modele'] ?? "",
           couleur: json['couleurVoile'] ?? "",
           // annee: json['annee'],
-          pTVMin: json['PTVMin'],
-          pTVMax: json['PTVMax'],
-          taille: json['taille'],
-          commentaire: json['commentaire'] ?? "");
+          pTVMin: json['PTVMin'] != '0' ? json['PTVMin'] : "",
+          pTVMax: json['PTVMax'] != '0' ? json['PTVMax'] : "",
+          // Remove "taille " from taille, regardless of CAPS
+          taille: json['taille'].replaceAll(RegExp(r'taille ', caseSensitive: false), ""),
+          // commentaire: concatenate taille ("Taille: xyz.") if not empty, and heuresDeVol ("Heures de vol: xyz.") if is not 0, and commentaire
+          commentaire: (
+              ((json['heureVolesVoile'] != '0' && json['heureVolesVoile'] != '' && json['heureVolesVoile'] != null) ? "Heures de vol: ${json['heureVolesVoile']}. " : "") +
+              (json['commentaire'] ?? ""))
+      );
+
     }
     // Catch the error and print it
     catch (e) {
@@ -77,6 +85,7 @@ class Article {
         'PTVMin': pTVMin,
         'PTVMax': pTVMax,
         'taille': taille,
+        'heureVolesVoile': heureVolesVoile,
         'commentaire': commentaire,
       };
 }

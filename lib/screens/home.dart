@@ -325,6 +325,13 @@ class HomeState extends State<Home> {
                         _data._sort((item) => item.modele, ascending);
                         refreshAfterSort(columnIndex, ascending);
                       }),
+                  // Taille
+                  DataColumn(
+                      label: Text('Taille'),
+                      onSort: (columnIndex, ascending) {
+                        _data._sort((item) => item.taille, ascending);
+                        refreshAfterSort(columnIndex, ascending);
+                      }),
                   DataColumn(
                       label: Text('PTV Min'),
                       onSort: (columnIndex, ascending) {
@@ -362,7 +369,7 @@ class HomeState extends State<Home> {
                 ],
                 columnSpacing: 15,
                 horizontalMargin: 10,
-                rowsPerPage: 10,
+                rowsPerPage: 20,
                 showCheckboxColumn: false,
                 showFirstLastButtons: true,
                 actions: <IconButton>[
@@ -412,7 +419,14 @@ class _DataSource extends DataTableSource {
   DataRow getRow(int index) {
     return DataRow(cells: [
       //DataCell(Text(articlesFiltered[index].idLot)),
-      DataCell(Text(articlesFiltered[index].numeroCoupon.toString())),
+      DataCell(GestureDetector(
+        child: Text(articlesFiltered[index].numeroCoupon.toString(),
+        // Enable onTap to filter on coupon number and underline decoration only if isLot = true
+        style: TextStyle(decoration: articlesFiltered[index].isLot ? TextDecoration.underline : TextDecoration.none)),
+        onTap: () => articlesFiltered[index].isLot ? articlesFiltered = articlesFiltered.where((article) => article.numeroCoupon == articlesFiltered[index].numeroCoupon).toList() : null
+        
+        )
+      ),
       DataCell(Text(articlesFiltered[index].isLot ? '📦' : '')),
       DataCell(Text(articlesFiltered[index].type)),
       DataCell(Text(articlesFiltered[index].marque)),
@@ -424,6 +438,7 @@ class _DataSource extends DataTableSource {
                   articlesFiltered[index].marque +
                   " " +
                   articlesFiltered[index].modele)))),
+      DataCell(Text(articlesFiltered[index].taille)),
       DataCell(Text(articlesFiltered[index].pTVMin)),
       DataCell(Text(articlesFiltered[index].pTVMax)),
       DataCell(Text(articlesFiltered[index].prixVente + "€")),
